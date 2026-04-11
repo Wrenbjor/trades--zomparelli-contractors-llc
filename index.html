@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Zomparelli Contractors LLC | Concrete in Trenton, NJ</title>
+<meta name="description" content="Industrial-Grade Concrete Services in Trenton, NJ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p:#115E59;--pd:#0c4340;
+  --bg:#181818;--bg2:#1f1f1f;--bg3:#141414;
+  --w:#f0ede8;--muted:#7a7a7a;--dim:#444;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;background:var(--bg);color:var(--w);overflow-x:hidden;
+  background-image:
+    repeating-linear-gradient(0deg,transparent,transparent 49px,rgba(255,255,255,.025) 49px,rgba(255,255,255,.025) 50px),
+    repeating-linear-gradient(90deg,transparent,transparent 49px,rgba(255,255,255,.025) 49px,rgba(255,255,255,.025) 50px);
+}
+
+/* NAV */
+nav{
+  position:fixed;inset:0 0 auto 0;z-index:999;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 2rem;
+  background:rgba(20,20,20,.96);backdrop-filter:blur(10px);
+  border-bottom:2px solid var(--p);
+}
+.nbrand{font-size:1rem;font-weight:900;color:var(--w);text-decoration:none;
+  letter-spacing:.05em;text-transform:uppercase}
+.nbrand span{color:var(--p)}
+.nphone{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:var(--p);color:#fff;text-decoration:none;
+  padding:.5rem 1.3rem;font-weight:800;font-size:.875rem;
+  letter-spacing:.03em;text-transform:uppercase;
+  clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  transition:background .25s;
+}
+.nphone:hover{background:var(--pd)}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  background:var(--bg3);
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  padding:7rem 2rem 7rem;
+  border-bottom:4px solid var(--p);
+}
+/* diagonal accent block */
+.hero-slab{
+  position:absolute;right:0;top:0;bottom:0;width:40%;
+  background:linear-gradient(180deg,rgba(17,94,89,.15) 0%,rgba(17,94,89,.05) 100%);
+  clip-path:polygon(20% 0,100% 0,100% 100%,0% 100%);
+}
+/* heavy diagonal line */
+.hero-line{
+  position:absolute;top:0;bottom:0;
+  left:56%;width:4px;
+  background:var(--p);
+  transform:skewX(-8deg);
+  opacity:.5;
+}
+.hero-wrap{position:relative;z-index:2;max-width:1100px;margin:0 auto;width:100%}
+.trade-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.7rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--p);margin-bottom:1.2rem;border-left:3px solid var(--p);padding-left:.75rem;
+}
+.hero h1{
+  font-size:clamp(2.5rem,7vw,5.5rem);font-weight:900;
+  line-height:1;letter-spacing:-.03em;
+  text-transform:uppercase;margin-bottom:1rem;
+}
+.hero h1 .hl{
+  color:var(--p);display:block;
+  -webkit-text-stroke:2px var(--p);
+}
+.hero-sub{
+  font-size:clamp(.9rem,1.8vw,1.1rem);color:var(--muted);
+  max-width:560px;line-height:1.65;margin-bottom:2.5rem;
+}
+.ctas{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.btn-main{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:var(--p);color:#fff;text-decoration:none;
+  padding:.95rem 2rem;font-weight:800;font-size:1rem;
+  letter-spacing:.03em;text-transform:uppercase;
+  clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);
+  transition:background .25s,transform .2s;
+}
+.btn-main:hover{background:var(--pd);transform:translateY(-2px)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:transparent;color:var(--w);text-decoration:none;
+  padding:.93rem 2rem;font-weight:700;font-size:1rem;
+  border:2px solid var(--dim);letter-spacing:.03em;text-transform:uppercase;
+  transition:border-color .25s,color .25s;
+}
+.btn-ghost:hover{border-color:var(--p);color:var(--p)}
+.hero-stats{
+  display:flex;gap:3rem;flex-wrap:wrap;
+  margin-top:3rem;padding-top:2rem;
+  border-top:1px solid var(--dim);
+}
+.stat-num{font-size:2.2rem;font-weight:900;color:var(--p);line-height:1;letter-spacing:-.03em}
+.stat-lbl{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-top:.2rem}
+
+/* SERVICES */
+.services{background:var(--bg2);padding:5.5rem 2rem}
+.sec-hdr{text-align:center;margin-bottom:3rem}
+.sec-label{
+  display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--p);margin-bottom:.5rem;
+}
+.sec-hdr h2{
+  font-size:clamp(1.8rem,4vw,3rem);font-weight:900;
+  letter-spacing:-.02em;text-transform:uppercase;
+}
+.sec-hdr p{color:var(--muted);font-size:.95rem;max-width:520px;margin:.65rem auto 0;line-height:1.6}
+.svc-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:1px;max-width:1100px;margin:0 auto;
+  border:1px solid var(--dim);
+}
+.scard{
+  background:var(--bg);padding:2rem;
+  border:1px solid var(--dim);
+  display:flex;align-items:center;gap:1rem;
+  transition:background .25s,border-color .25s;
+  position:relative;overflow:hidden;
+}
+.scard::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--p);transform:scaleY(0);transform-origin:bottom;transition:transform .3s;
+}
+.scard:hover{background:rgba(255,255,255,.04);border-color:var(--p)}
+.scard:hover::before{transform:scaleY(1)}
+.scard-num{
+  width:36px;height:36px;background:var(--p);border-radius:4px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;
+}
+.scard h3{font-size:.95rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+
+/* ABOUT */
+.about{background:var(--bg3);padding:5.5rem 2rem;border-top:1px solid var(--dim);border-bottom:1px solid var(--dim)}
+.about-inner{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;
+}
+.about-copy .sec-label{display:block;text-align:left;margin-bottom:.5rem}
+.about-copy h2{
+  font-size:clamp(1.7rem,3.5vw,2.8rem);font-weight:900;
+  text-transform:uppercase;letter-spacing:-.02em;margin-bottom:1.3rem;
+}
+.about-copy p{color:var(--muted);line-height:1.8;font-size:.975rem;margin-bottom:1.4rem}
+.feature-list{display:flex;flex-direction:column;gap:.7rem}
+.fitem{display:flex;align-items:center;gap:.7rem;font-size:.9rem;color:var(--w)}
+.fitem i{color:var(--p);flex-shrink:0}
+.about-panel{
+  background:var(--bg2);border:1px solid var(--dim);
+  border-left:4px solid var(--p);
+  padding:2.5rem;
+}
+.big-ico{font-size:4.5rem;color:var(--p);display:block;margin-bottom:1.2rem}
+.about-panel h3{font-size:1.3rem;font-weight:900;text-transform:uppercase;letter-spacing:.03em;margin-bottom:.7rem}
+.about-panel p{color:var(--muted);font-size:.9rem;line-height:1.6;margin-bottom:1.6rem}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--bg2);padding:5.5rem 2rem}
+.t-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:1px;max-width:1100px;margin:0 auto;border:1px solid var(--dim);
+}
+.tcard{
+  background:var(--bg);border:1px solid var(--dim);padding:2rem;
+  transition:background .25s,border-color .25s;
+}
+.tcard:hover{background:rgba(255,255,255,.04);border-color:var(--p)}
+.stars{color:#f59e0b;letter-spacing:2px;margin-bottom:.9rem;font-size:.95rem}
+.tcard p{color:var(--muted);line-height:1.7;font-size:.92rem;font-style:italic;margin-bottom:.9rem}
+.rname{font-size:.78rem;color:var(--p);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+
+/* CTA */
+.cta-band{
+  background:var(--p);padding:5rem 2rem;text-align:center;
+  border-top:4px solid var(--pd);border-bottom:4px solid var(--pd);
+  position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 20px,rgba(0,0,0,.08) 20px,rgba(0,0,0,.08) 21px);
+}
+.cta-inner{position:relative;z-index:1}
+.cta-band h2{
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:900;
+  text-transform:uppercase;letter-spacing:-.02em;margin-bottom:.9rem;
+}
+.cta-band p{font-size:1.05rem;opacity:.88;max-width:480px;margin:0 auto 2.4rem;line-height:1.6}
+.btn-cta{
+  display:inline-flex;align-items:center;gap:.7rem;
+  background:#fff;color:var(--p);text-decoration:none;
+  padding:1.1rem 2.6rem;font-weight:900;font-size:1.1rem;
+  text-transform:uppercase;letter-spacing:.05em;
+  clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+  box-shadow:0 4px 20px rgba(0,0,0,.2);
+  transition:transform .25s,box-shadow .25s;
+}
+.btn-cta:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+
+/* FOOTER */
+footer{background:#0d0d0d;padding:2.2rem 2rem;text-align:center;border-top:2px solid var(--dim)}
+footer p{color:var(--muted);font-size:.82rem}
+footer a{color:var(--p);text-decoration:none}
+
+/* ANIMATE */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.hero-wrap>*{animation:fadeUp .55s ease both}
+.hero-wrap>*:nth-child(1){animation-delay:.1s}
+.hero-wrap>*:nth-child(2){animation-delay:.2s}
+.hero-wrap>*:nth-child(3){animation-delay:.3s}
+.hero-wrap>*:nth-child(4){animation-delay:.4s}
+.hero-wrap>*:nth-child(5){animation-delay:.5s}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .about-inner{grid-template-columns:1fr;gap:2.5rem}
+  .ctas{flex-direction:column;align-items:flex-start}
+  .hero-slab{display:none}
+}
+@media(max-width:480px){
+  .svc-grid{grid-template-columns:1fr}
+  .t-grid{grid-template-columns:1fr}
+  nav{padding:.75rem 1rem}
+}
+/* ── MAP ── */
+.map-section{background:#0d0d0d}
+#map{width:100%;height:400px;display:block}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nbrand" href="#"><span>Zomparelli Contractors LLC</span></a>
+  <a class="nphone" href="tel:6095871784"><i class="fas fa-phone"></i>(609) 587-1784</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-slab"></div>
+  <div class="hero-line"></div>
+  <div class="hero-wrap">
+    <div class="trade-tag"><i class="fas fa-cube"></i>&nbsp;Concrete &mdash; Trenton, NJ</div>
+    <h1>Zomparelli Contractors LLC<span class="hl">Concrete</span></h1>
+    <p class="hero-sub">Industrial-Grade Concrete Services in Trenton, NJ</p>
+    <div class="ctas">
+      <a class="btn-main" href="tel:6095871784"><i class="fas fa-phone"></i>Call Now</a>
+      <a class="btn-ghost" href="#services"><i class="fas fa-arrow-right"></i>Services</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">100%</div><div class="stat-lbl">Bonded &amp; Insured</div></div>
+      <div><div class="stat-num">24/7</div><div class="stat-lbl">Emergency Service</div></div>
+      <div><div class="stat-num">FREE</div><div class="stat-lbl">Estimates</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="sec-hdr">
+    <span class="sec-label">What We Build</span>
+    <h2>Our Services</h2>
+    <p>Heavy-duty concrete solutions for residential, commercial, and industrial projects in Trenton.</p>
+  </div>
+  <div class="svc-grid">
+      <div class="scard">
+        <div class="scard-num"><i class="fas fa-caret-right"></i></div>
+        <h3>Concrete Driveways</h3>
+      </div>
+      <div class="scard">
+        <div class="scard-num"><i class="fas fa-caret-right"></i></div>
+        <h3>Concrete Patios</h3>
+      </div>
+      <div class="scard">
+        <div class="scard-num"><i class="fas fa-caret-right"></i></div>
+        <h3>Stamped Concrete</h3>
+      </div>
+      <div class="scard">
+        <div class="scard-num"><i class="fas fa-caret-right"></i></div>
+        <h3>Foundation Work</h3>
+      </div>
+      <div class="scard">
+        <div class="scard-num"><i class="fas fa-caret-right"></i></div>
+        <h3>Concrete Repair</h3>
+      </div>
+      <div class="scard">
+        <div class="scard-num"><i class="fas fa-caret-right"></i></div>
+        <h3>Free Estimates</h3>
+      </div></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-copy">
+      <span class="sec-label">About Us</span>
+      <h2>Built Tough.<br>Built Right.</h2>
+      <p>Zomparelli Contractors LLC delivers heavy-duty concrete work for residential, commercial, and municipal clients throughout Trenton, NJ. Built tough. Built to last.</p>
+      <div class="feature-list">
+        <div class="fitem"><i class="fas fa-hard-hat"></i>Licensed, Bonded &amp; Insured</div>
+        <div class="fitem"><i class="fas fa-clipboard-check"></i>Free Written Estimates</div>
+        <div class="fitem"><i class="fas fa-map-marker-alt"></i>Serving Trenton &amp; Surrounding Areas</div>
+        <div class="fitem"><i class="fas fa-shield-alt"></i>Quality Guaranteed</div>
+      </div>
+    </div>
+    <div class="about-panel">
+      <i class="fas fa-cube big-ico"></i>
+      <h3>Concrete Experts</h3>
+      <p>Industrial-grade results for every project. Serving Trenton, NJ with no-nonsense professionalism.</p>
+      <a class="btn-main" href="tel:6095871784">
+        <i class="fas fa-phone"></i>(609) 587-1784
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="reviews">
+  <div class="sec-hdr">
+    <span class="sec-label">Client Reviews</span>
+    <h2>What They Say</h2>
+    <p>Real feedback from customers who chose Zomparelli Contractors LLC for their concrete project.</p>
+  </div>
+  <div class="t-grid">
+      <div class="tcard">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Showed up on time, did the work right, and didn&#39;t try to upsell me on stuff I didn&#39;t need. Highly recommend.&rdquo;</p>
+        <span class="rname">&#8212; Verified Customer</span>
+      </div>
+      <div class="tcard">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Best contractor I&#39;ve worked with. Professional, fairly priced, and the quality of work was excellent.&rdquo;</p>
+        <span class="rname">&#8212; Verified Customer</span>
+      </div>
+      <div class="tcard">
+        <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p>&ldquo;Honest, reliable, and they stand behind their work. Will absolutely use again and refer to friends.&rdquo;</p>
+        <span class="rname">&#8212; Verified Customer</span>
+      </div></div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band" id="contact">
+  <div class="cta-inner">
+    <h2>Get Your Free Quote Today</h2>
+    <p>Contact Zomparelli Contractors LLC for a no-obligation estimate on your next concrete project in Trenton, NJ.</p>
+    <a class="btn-cta" href="tel:6095871784"><i class="fas fa-phone-alt"></i>Call (609) 587-1784</a>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+  <div id="map" aria-label="Map showing Zomparelli Contractors LLC in Trenton, NJ"></div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Zomparelli Contractors LLC &nbsp;&bull;&nbsp; Concrete in Trenton, NJ &nbsp;&bull;&nbsp; <a href="tel:6095871784">(609) 587-1784</a></p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var geo='Trenton, NJ';
+  if(!geo)return;
+  var q=encodeURIComponent(geo+', USA');
+  fetch('https://nominatim.openstreetmap.org/search?q='+q+'&format=json&limit=1')
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(!d||!d.length)return;
+      var lat=parseFloat(d[0].lat),lng=parseFloat(d[0].lon);
+      var map=L.map('map',{scrollWheelZoom:false}).setView([lat,lng],13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom:19
+      }).addTo(map);
+      L.marker([lat,lng]).addTo(map).bindPopup('Zomparelli Contractors LLC').openPopup();
+    }).catch(function(){});
+})();
+</script>
+
+</body>
+</html>
